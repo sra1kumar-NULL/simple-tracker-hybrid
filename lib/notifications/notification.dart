@@ -9,7 +9,7 @@ class NotificationService extends ChangeNotifier{
     FlutterLocalNotificationsPlugin();
 
     AndroidInitializationSettings androidInitializationSettings =
-    AndroidInitializationSettings("ic_launcher");
+    AndroidInitializationSettings("iconfile");
 
     IOSInitializationSettings iosInitializationSettings =
     IOSInitializationSettings();
@@ -31,5 +31,28 @@ class NotificationService extends ChangeNotifier{
     await _flutterLocalNotificationsPlugin.show(
         0, "Demo instant notification", "Tap to do something", platform,
         payload: "Welcome to demo app");
+  }
+  Future sheduledNotification() async {
+    var interval = RepeatInterval.everyMinute;
+    var
+    var bigPicture = BigPictureStyleInformation(
+        DrawableResourceAndroidBitmap("iconfile"),
+        largeIcon: DrawableResourceAndroidBitmap("iconfile"),
+        contentTitle: "Demo image notification",
+        summaryText: "This is some text",
+        htmlFormatContent: true,
+        htmlFormatContentTitle: true);
+
+    var android = AndroidNotificationDetails("id", "channel",
+        styleInformation: bigPicture);
+
+    var platform = new NotificationDetails(android: android);
+
+    await _flutterLocalNotificationsPlugin.periodicallyShow(
+        0,
+        "Demo Sheduled notification",
+        "Tap to do something",
+        interval,
+        platform);
   }
 }
