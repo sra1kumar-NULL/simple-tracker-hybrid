@@ -23,18 +23,18 @@ class _NotifyState extends State<Notify> {
     return Scaffold(
       body: Container(
         child: Center(
-          child: Consumer<NotificationService>(
-              builder: (context, model, _) => Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                          onPressed: () => model.instantNofitication(),
-                          child: Text("Instant Notification")),
-                      ElevatedButton(
-                          onPressed: () => model.sheduledNotification(),
-                          child: Text("Scheduled Notification")),
-                    ],
-                  )),
+          // child: Consumer<NotificationService>(
+          //     builder: (context, model, _) => Column(
+          //           mainAxisAlignment: MainAxisAlignment.center,
+          //           children: [
+          //             ElevatedButton(
+          //                 onPressed: () => model.instantNofitication(),
+          //                 child: Text("Instant Notification")),
+          //             ElevatedButton(
+          //                 onPressed: () => model.sheduledNotification(),
+          //                 child: Text("Scheduled Notification")),
+          //           ],
+          //         )),
         ),
       ),
     );
