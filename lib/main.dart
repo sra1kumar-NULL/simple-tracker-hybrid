@@ -16,8 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
         child: MaterialApp(
-          theme: ThemeData(fontFamily: 'Monteserat'),
-          home: Notify(),
+          home: SignIn(),
           debugShowCheckedModeBanner: false,
         ),
         providers: [

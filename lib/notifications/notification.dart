@@ -1,9 +1,12 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-class NotificationService extends ChangeNotifier{
-  final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin=
-      FlutterLocalNotificationsPlugin();
+class NotificationService extends ChangeNotifier {
+
+  final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
+  FlutterLocalNotificationsPlugin();
+
   Future initialize() async {
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -21,6 +24,7 @@ class NotificationService extends ChangeNotifier{
 
     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
+
   Future instantNofitication() async {
     var android = AndroidNotificationDetails("id", "channel");
 
@@ -32,26 +36,27 @@ class NotificationService extends ChangeNotifier{
         0, "Demo instant notification", "Tap to do something", platform,
         payload: "Welcome to demo app");
   }
+
   Future sheduledNotification() async {
     var interval = RepeatInterval.everyMinute;
-    var
+
     var bigPicture = BigPictureStyleInformation(
         DrawableResourceAndroidBitmap("iconfile"),
         largeIcon: DrawableResourceAndroidBitmap("iconfile"),
-        contentTitle: "Demo image notification",
-        summaryText: "This is some text",
+        contentTitle: "Weight Reminder",
+        summaryText: "Enter Your Weight",
         htmlFormatContent: true,
         htmlFormatContentTitle: true);
 
     var android = AndroidNotificationDetails("id", "channel",
-        styleInformation: bigPicture);
+        ticker: "Reply", styleInformation: bigPicture,importance: Importance.max);
 
     var platform = new NotificationDetails(android: android);
 
     await _flutterLocalNotificationsPlugin.periodicallyShow(
         0,
         "Demo Sheduled notification",
-        "Tap to do something",
+        "tap to do something",
         interval,
         platform);
   }

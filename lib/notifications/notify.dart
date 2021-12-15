@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+//import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_tracker/notifications/notification.dart';
 
@@ -14,7 +14,7 @@ class Notify extends StatefulWidget {
 class _NotifyState extends State<Notify> {
   @override
   void initState() {
-    Provider.of<NotificationService>(context, listen: false).initialize();
+    Provider.of<NotificationService>(context, listen:false).initialize();
     super.initState();
   }
 
