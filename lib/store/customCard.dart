@@ -52,7 +52,7 @@ class CustomCard extends StatelessWidget {
                           onPressed: () async {
                             String _id = snapshot.data.docs[index].id;
                             //debugPrint(FirebaseFirestore.instance.collection("weights").doc('$index').toString());
-                            //await FirebaseFirestore.instance.collection("weights").doc(_id).delete().then((value) => print("deleted"));
+                            await FirebaseFirestore.instance.collection("weights").doc(_id).delete().then((value) => print("deleted"));
                           },
                           child: Text("delete"),
                         )
