@@ -23,23 +23,25 @@ class NotificationService extends ChangeNotifier {
     await flutterLocalNotificationsPlugin.initialize(
         initializationSettings,onSelectNotification: _addItem());
   }
-  
+
   Future sheduledNotification() async {
-    var interval = RepeatInterval.everyMinute;
+    var interval = RepeatInterval.hourly;
 
     var bigPicture = BigPictureStyleInformation(
         DrawableResourceAndroidBitmap("iconfile"),
         largeIcon: DrawableResourceAndroidBitmap("iconfile"),
         contentTitle: "Weight Reminder",
         summaryText: "Enter Your Weight",
+
         htmlFormatContent: true,
         htmlFormatContentTitle: true);
 
     var android = AndroidNotificationDetails("id", "channel",
-        ticker: "Reply",
+        ticker:"Reply",
         styleInformation: bigPicture,
+        channelShowBadge: true,
         importance: Importance.max,
-        ongoing: true,
+        playSound: true,
         );
 
     var platform = new NotificationDetails(android: android);

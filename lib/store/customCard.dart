@@ -31,6 +31,7 @@ class CustomCard extends StatelessWidget {
                 child: Column(
                   children: [
                     ListTile(
+
                       title: Text(snapshotData['weight']),
                       subtitle: Text(dateFormatted),
                     ),

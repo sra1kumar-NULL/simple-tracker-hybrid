@@ -25,7 +25,10 @@ class _SignInState extends State<SignIn> {
       backgroundColor: Colors.redAccent[100],
       appBar: AppBar(
         backgroundColor: Colors.redAccent[400],
-        title: Text("Sign In"),
+        title: Center(child: Text("Sign In",style: TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.bold
+        ),)),
       ),
       body: Container(
         padding:EdgeInsets.all(20),
