@@ -7,13 +7,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 class WeightsApp extends StatefulWidget {
   const WeightsApp({Key? key}) : super(key: key);
 
+
   @override
   _WeightsAppState createState() => _WeightsAppState();
 }
 
 class _WeightsAppState extends State<WeightsApp> {
-  late TextEditingController nameInput=TextEditingController();
-  var firestoreDb = FirebaseFirestore.instance.collection("weights")
+  late TextEditingController nameInput = TextEditingController();
+  var firestoreDb = FirebaseFirestore.instance.collection("weights").orderBy("timestamp",descending: true)
       .snapshots();
 
   @override
@@ -38,11 +39,12 @@ class _WeightsAppState extends State<WeightsApp> {
                   );
                 });
           }),
-      bottomSheet: SizedBox(
+      bottomNavigationBar: SizedBox(
         width: MediaQuery
             .of(context)
             .size
             .width,
+
         child: RaisedButton(
           color: Colors.redAccent[200],
           child: Text("LOG OUT", style: TextStyle(
@@ -57,12 +59,11 @@ class _WeightsAppState extends State<WeightsApp> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           _addItem(context);
-
         },
         backgroundColor: Colors.redAccent[400],
-        child: Text("+",style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 44
+        child: Text("+", style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 44
         )),
       ),
 
@@ -70,51 +71,51 @@ class _WeightsAppState extends State<WeightsApp> {
   }
 
   _addItem(BuildContext context) async {
+    await showDialog(context: context, builder: (_) =>
+        AlertDialog(
+          contentPadding: EdgeInsets.all(10),
+          content: Column(
+            children: [
+              Text("Please Enter the Weight"),
+              Expanded(
+                child: TextField(
+                  autocorrect: true,
+                  autofocus: true,
+                  decoration: InputDecoration(labelText: "Your Weight *"),
+                  controller: nameInput,
+                ),
+              ),
 
-    await showDialog(context: context, builder:(_)=>AlertDialog(
-        contentPadding: EdgeInsets.all(10),
-      content: Column(
-        children: [
-          Text("Please Enter the Weight"),
-          Expanded(
-            child: TextField(
-              autocorrect: true,
-              autofocus: true,
-              decoration: InputDecoration(labelText: "Your Weight *"),
-              controller: nameInput,
-            ),
+            ],
           ),
-
-        ],
-      ),
-      actions: [
-        FlatButton(
-          onPressed: () =>
-          {
-
-            if (nameInput.text.isNotEmpty)
+          actions: [
+            FlatButton(
+              onPressed: () =>
               {
 
-                FirebaseFirestore.instance.collection("weights").add(
+                if (nameInput.text.isNotEmpty)
+                  {
+
+                    FirebaseFirestore.instance.collection("weights").add(
+                        {
+                          "weight": nameInput.text,
+                          "timestamp": new DateTime.now()
+                        }
+                    ).then((response) =>
                     {
-                      "weight":nameInput.text,
-                      "timestamp":new DateTime.now()
-                    }
-                ).then((response) =>
-                {
-                  print("response.id successfull"),
-                }),
+                      print("response.id successfull"),
+                    }),
+                  },
+                Navigator.pop(context),
+                nameInput.clear(),
+
+
               },
-            Navigator.pop(context),
-            nameInput.clear(),
+              child: Text("Save"),
+            )
+          ],
 
-
-          },
-          child: Text("Save"),
-        )
-      ],
-
-    ));
+        ));
   }
 
 }

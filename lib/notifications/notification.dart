@@ -1,4 +1,6 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:simple_tracker/store/DisplayW.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 class NotificationService extends ChangeNotifier {
 
@@ -21,11 +23,24 @@ class NotificationService extends ChangeNotifier {
         iOS: iosInitializationSettings);
 
     await flutterLocalNotificationsPlugin.initialize(
-        initializationSettings,onSelectNotification: _addItem());
+        initializationSettings,
+
+    );
   }
+  // Future onSelectNotification(String payload) async {
+  //   showDialog(
+  //     context: context,
+  //     builder: (_) {
+  //       return new AlertDialog(
+  //         title: Text("Your Notification Detail"),
+  //         content: Text("Payload : $payload"),
+  //       );
+  //     },
+  //   );
+  // }
 
   Future sheduledNotification() async {
-    var interval = RepeatInterval.hourly;
+    var interval = RepeatInterval.everyMinute;
 
     var bigPicture = BigPictureStyleInformation(
         DrawableResourceAndroidBitmap("iconfile"),
@@ -44,6 +59,7 @@ class NotificationService extends ChangeNotifier {
         playSound: true,
         );
 
+
     var platform = new NotificationDetails(android: android);
 
     await _flutterLocalNotificationsPlugin.periodicallyShow(
@@ -53,7 +69,5 @@ class NotificationService extends ChangeNotifier {
         interval,
         platform);
   }
-  _addItem(){
-    debugPrint("This is Due to Clicking Notification");
-  }
+
 }

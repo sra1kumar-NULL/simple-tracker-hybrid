@@ -10,13 +10,12 @@ class CustomCard extends StatelessWidget {
 
   CustomCard(this.snapshot, this.index);
 
-
   @override
   Widget build(BuildContext context) {
     var snapshotData = snapshot.data!.docs[index];
-    String __id= snapshot.data.docs[index].id;
+    String __id = snapshot.data.docs[index].id;
     DocumentReference documentReference =
-    FirebaseFirestore.instance.collection("weights").doc(__id);
+        FirebaseFirestore.instance.collection("weights").doc(__id);
     var timeToDate = new DateTime.fromMicrosecondsSinceEpoch(
         snapshotData['timestamp'].seconds * 1000);
     var dateFormatted = new DateFormat("EEEE, MM d,y").format(timeToDate);
@@ -31,7 +30,6 @@ class CustomCard extends StatelessWidget {
                 child: Column(
                   children: [
                     ListTile(
-
                       title: Text(snapshotData['weight']),
                       subtitle: Text(dateFormatted),
                     ),
@@ -53,7 +51,11 @@ class CustomCard extends StatelessWidget {
                           onPressed: () async {
                             String _id = snapshot.data.docs[index].id;
                             //debugPrint(FirebaseFirestore.instance.collection("weights").doc('$index').toString());
-                            await FirebaseFirestore.instance.collection("weights").doc(_id).delete().then((value) => print("deleted"));
+                            await FirebaseFirestore.instance
+                                .collection("weights")
+                                .doc(_id)
+                                .delete()
+                                .then((value) => print("deleted"));
                           },
                           child: Text("delete"),
                         )
@@ -69,16 +71,14 @@ class CustomCard extends StatelessWidget {
     );
   }
 
-  __showDialog(BuildContext context,
-      DocumentReference documentReference) async {
+  __showDialog(
+      BuildContext context, DocumentReference documentReference) async {
     await showDialog(
         context: context,
-        builder: (_) =>
-            AlertDialog(
+        builder: (_) => AlertDialog(
               contentPadding: EdgeInsets.all(10),
               content: Column(
                 children: [
-
                   Text("Please Enter the Weight"),
                   Expanded(
                     child: TextField(
@@ -88,32 +88,22 @@ class CustomCard extends StatelessWidget {
                       controller: nameInputController,
                     ),
                   ),
-
                 ],
               ),
-
               actions: [
                 FlatButton(
-                  onPressed: () =>
-                  {
-
+                  onPressed: () => {
                     if (nameInputController.text.isNotEmpty)
                       {
-
-                        documentReference.update(
-                            {
-                              "weight":nameInputController.text,
-                              "timestamp":new DateTime.now()
-                            }
-                        ).then((response) =>
-                        {
-                          print("response.id successfull"),
-                        }),
+                        documentReference.update({
+                          "weight": nameInputController.text,
+                          "timestamp": new DateTime.now()
+                        }).then((response) => {
+                              print("response.id successfull"),
+                            }),
                       },
                     Navigator.pop(context),
                     nameInputController.clear(),
-
-
                   },
                   child: Text("Save"),
                 )
