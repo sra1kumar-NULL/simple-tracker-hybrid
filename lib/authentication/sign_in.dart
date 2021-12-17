@@ -35,7 +35,7 @@ class _SignInState extends State<SignIn> {
         color: Colors.redAccent[100],
         child: Center(
           child: Consumer<NotificationService>(
-            builder: (context, model, _)=> RaisedButton(
+            builder: (context, model, _)=> ElevatedButton(
               child: Text("Sign In Anonymously"),
               onPressed: ()async{
                   dynamic result =await _authService.signInAnony();

@@ -7,13 +7,10 @@ import 'package:flutter/widgets.dart';
 import 'package:simple_tracker/store/DisplayW.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-class NotificationService extends ChangeNotifier {
-
+class FcNotification extends ChangeNotifier {
+  FcHome _fcHome=FcHome();
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
   FlutterLocalNotificationsPlugin();
-
-  //final MethoCall _methoCall=MethodCall(_add,payload);
-  //final Int32List flags=Int32List(3);
   Future initialize() async {
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -29,28 +26,18 @@ class NotificationService extends ChangeNotifier {
         android: androidInitializationSettings,
         iOS: iosInitializationSettings);
 
+    var fcHome;
     await flutterLocalNotificationsPlugin.initialize(
-        initializationSettings,
+      initializationSettings,onSelectNotification: fcHome._onSelectNotification
     );
   }
-
-  // Future selectNotification(String payload) async {
-  //   if (payload != null) {
-  //     print('notification payload: $payload');
-  //   } else {
-  //     print("Notification Done");
-  //   }
-  //   Get.to(()=>SecondScreen(payload));
-  // }
-
-
   Future sheduledNotification() async {
-    var interval = RepeatInterval.hourly;
+    var interval = RepeatInterval.everyMinute;
 
-    var bigPicture = BigPictureStyleInformation(
+    var bigPicture =  BigPictureStyleInformation(
         DrawableResourceAndroidBitmap("iconfile"),
         largeIcon: DrawableResourceAndroidBitmap("iconfile"),
-        contentTitle: "Weight Reminder",
+        contentTitle: "Height Reminder",
         summaryText: "Enter Your Weight",
 
         htmlFormatContent: true,
@@ -67,13 +54,63 @@ class NotificationService extends ChangeNotifier {
     );
     var platform = new NotificationDetails(android: android);
     await _flutterLocalNotificationsPlugin.periodicallyShow(
-    0,
-    "Demo Sheduled notification",
-    "tap to do something",
-    interval,
-    platform);
+        0,
+        "Demo Sheduled notification",
+        "tap to do something",
+        interval,
+        platform);
   }
   Future cancelAll() async {
     await _flutterLocalNotificationsPlugin.cancelAll();
+  }
+
+}
+class FcHome extends StatefulWidget {
+  const FcHome({Key? key}) : super(key: key);
+
+  @override
+  _FcHomeState createState() => _FcHomeState();
+}
+
+class _FcHomeState extends State<FcHome> {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Fc HOME"),
+      ),
+      body: Center(
+        child: Column(
+          children: [
+            ElevatedButton(
+              child: Text("Click To Start Notification service"),
+              onPressed: (){
+                FcNotification fcNotification=FcNotification();
+                fcNotification.sheduledNotification;
+              },
+            ),
+            SizedBox(
+              height: 50,
+
+            ),
+            ElevatedButton(
+              child: Text("Click to Cancel Notifications"),
+              onPressed: (){
+                FcNotification fcNotification=FcNotification();
+                fcNotification.cancelAll();
+              },
+
+            )
+
+          ],
+        ),
+      ),
+    );
+  }
+  _onSelectNotification(){
+    return TextField(
+      autofocus: true,
+    );
   }
 }

@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:simple_tracker/store/customCard.dart';
 import 'package:simple_tracker/authentication/sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:simple_tracker/notifications/notification.dart';
 class WeightsApp extends StatefulWidget {
   const WeightsApp({Key? key}) : super(key: key);
 
@@ -52,6 +52,8 @@ class _WeightsAppState extends State<WeightsApp> {
           onPressed: () {
             var result = FirebaseAuth.instance.signOut();
             Navigator.pop(context);
+            NotificationService _notifi=NotificationService();
+            _notifi.cancelAll();
             print(result);
           },
         ),
